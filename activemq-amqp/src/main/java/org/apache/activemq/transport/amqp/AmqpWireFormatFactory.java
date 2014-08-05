@@ -24,8 +24,22 @@ import org.apache.activemq.wireformat.WireFormatFactory;
  */
 public class AmqpWireFormatFactory implements WireFormatFactory {
 
+    private long maxInactivityDuration = 0;
+
     @Override
     public WireFormat createWireFormat() {
-        return new AmqpWireFormat();
+        AmqpWireFormat amqpWireFormat = new AmqpWireFormat();
+        amqpWireFormat.setMaxInactivityDuration(getMaxInactivityDuration());
+        return amqpWireFormat;
+    }
+
+    public long getMaxInactivityDuration() {
+        System.out.println("Get maxInactivityDuration");
+        return maxInactivityDuration;
+    }
+
+    public void setMaxInactivityDuration(long maxInactivityDuration) {
+        System.out.println("Set maxInactivityDuration to " + maxInactivityDuration);
+        this.maxInactivityDuration = maxInactivityDuration;
     }
 }

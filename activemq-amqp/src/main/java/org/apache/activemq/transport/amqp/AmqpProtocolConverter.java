@@ -138,6 +138,7 @@ class AmqpProtocolConverter implements IAmqpProtocolConverter {
         // transport.getWireFormat().getMaxFrameSize();
 
         this.protonTransport.setMaxFrameSize(maxFrameSize);
+        this.protonTransport.setIdleTimeOut((int) transport.getWireFormat().getMaxInactivityDuration());
         this.protonTransport.bind(this.protonConnection);
         this.protonConnection.collect(eventCollector);
         updateTracer();

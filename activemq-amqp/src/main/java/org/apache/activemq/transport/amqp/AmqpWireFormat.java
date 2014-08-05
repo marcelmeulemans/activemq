@@ -38,6 +38,7 @@ public class AmqpWireFormat implements WireFormat {
 
     private int version = 1;
     private long maxFrameSize = DEFAULT_MAX_FRAME_SIZE;
+    private long maxInactivityDuration = 0;
 
     @Override
     public ByteSequence marshal(Object command) throws IOException {
@@ -115,5 +116,13 @@ public class AmqpWireFormat implements WireFormat {
 
     public void setMaxFrameSize(long maxFrameSize) {
         this.maxFrameSize = maxFrameSize;
+    }
+
+    public long getMaxInactivityDuration() {
+        return maxInactivityDuration;
+    }
+
+    public void setMaxInactivityDuration(long maxInactivityDuration) {
+        this.maxInactivityDuration = maxInactivityDuration;
     }
 }
