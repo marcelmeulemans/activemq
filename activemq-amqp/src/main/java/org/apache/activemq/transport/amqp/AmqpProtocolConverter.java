@@ -54,6 +54,7 @@ import org.apache.activemq.command.SessionInfo;
 import org.apache.activemq.command.ShutdownInfo;
 import org.apache.activemq.command.TransactionInfo;
 import org.apache.activemq.command.ActiveMQTempTopic;
+import org.apache.activemq.command.CommandTypes;
 import org.apache.activemq.selector.SelectorParser;
 import org.apache.activemq.util.IOExceptionSupport;
 import org.apache.activemq.util.IdGenerator;
@@ -396,6 +397,8 @@ class AmqpProtocolConverter implements IAmqpProtocolConverter {
             // connection?
             Throwable exception = ((ConnectionError) command).getException();
             handleException(exception);
+        } else if (command.getDataStructureType() == CommandTypes.KEEP_ALIVE_INFO) {
+            ((TransportImpl) protonTransport).writeFrame(0, null, null, null);
         } else if (command.isBrokerInfo()) {
             // ignore
         } else {
@@ -428,7 +431,7 @@ class AmqpProtocolConverter implements IAmqpProtocolConverter {
 
         connectionInfo.setResponseRequired(true);
         connectionInfo.setConnectionId(connectionId);
-        // configureInactivityMonitor(connect.keepAlive());
+        configureInactivityMonitor(protonTransport.getIdleTimeOut(), protonTransport.getRemoteIdleTimeOut());
 
         String clientId = protonConnection.getRemoteContainer();
         if (clientId != null && !clientId.isEmpty()) {
@@ -1364,5 +1367,24 @@ class AmqpProtocolConverter implements IAmqpProtocolConverter {
         condition.setCondition(Symbol.valueOf(name));
         condition.setDescription(description);
         return condition;
+    }
+
+    protected void configureInactivityMonitor(int idleTimeOut, int remoteIdleTimeOut) {
+
+        if (idleTimeOut > 0 || remoteIdleTimeOut > 0) {
+            try {
+                AmqpInactivityMonitor monitor = this.amqpTransport.getInactivityMonitor();
+                monitor.configure(idleTimeOut, remoteIdleTimeOut);
+                monitor.start();
+            } catch(Exception ex) {
+                idleTimeOut = 0;
+                remoteIdleTimeOut = 0;
+            }
+
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("AMQP Connect heartbeat conf RW[" + idleTimeOut + "," + remoteIdleTimeOut + "]");
+            }
+            System.out.println("AMQP Connect heartbeat conf RW[" + idleTimeOut + "," + remoteIdleTimeOut + "]");
+        }
     }
 }

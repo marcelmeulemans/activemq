@@ -36,6 +36,8 @@ public interface AmqpTransport {
 
     public void onException(IOException error);
 
+    public AmqpInactivityMonitor getInactivityMonitor();
+
     public AmqpWireFormat getWireFormat();
 
     public void stop() throws Exception;

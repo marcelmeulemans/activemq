@@ -43,6 +43,7 @@ public class AmqpTransportFilter extends TransportFilter implements AmqpTranspor
     static final Logger TRACE_BYTES = LoggerFactory.getLogger(AmqpTransportFilter.class.getPackage().getName() + ".BYTES");
     static final Logger TRACE_FRAMES = LoggerFactory.getLogger(AmqpTransportFilter.class.getPackage().getName() + ".FRAMES");
     private IAmqpProtocolConverter protocolConverter;
+    private AmqpInactivityMonitor monitor;
     private AmqpWireFormat wireFormat;
 
     private boolean trace;
@@ -147,6 +148,15 @@ public class AmqpTransportFilter extends TransportFilter implements AmqpTranspor
     public void setTrace(boolean trace) {
         this.trace = trace;
         this.protocolConverter.updateTracer();
+    }
+
+    @Override
+    public AmqpInactivityMonitor getInactivityMonitor() {
+        return monitor;
+    }
+
+    public void setInactivityMonitor(AmqpInactivityMonitor monitor) {
+        this.monitor = monitor;
     }
 
     @Override
