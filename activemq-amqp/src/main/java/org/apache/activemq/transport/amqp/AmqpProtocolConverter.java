@@ -1384,7 +1384,6 @@ class AmqpProtocolConverter implements IAmqpProtocolConverter {
             if (LOG.isDebugEnabled()) {
                 LOG.debug("AMQP Connect heartbeat conf RW[" + idleTimeOut + "," + remoteIdleTimeOut + "]");
             }
-            System.out.println("AMQP Connect heartbeat conf RW[" + idleTimeOut + "," + remoteIdleTimeOut + "]");
         }
     }
 }

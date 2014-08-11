@@ -34,12 +34,10 @@ public class AmqpWireFormatFactory implements WireFormatFactory {
     }
 
     public long getMaxInactivityDuration() {
-        System.out.println("Get maxInactivityDuration");
         return maxInactivityDuration;
     }
 
     public void setMaxInactivityDuration(long maxInactivityDuration) {
-        System.out.println("Set maxInactivityDuration to " + maxInactivityDuration);
         this.maxInactivityDuration = maxInactivityDuration;
     }
 }
