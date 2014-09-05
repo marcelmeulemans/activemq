@@ -398,7 +398,7 @@ class AmqpProtocolConverter implements IAmqpProtocolConverter {
             Throwable exception = ((ConnectionError) command).getException();
             handleException(exception);
         } else if (command.getDataStructureType() == CommandTypes.KEEP_ALIVE_INFO) {
-            ((TransportImpl) protonTransport).writeFrame(0, null, null, null);
+            ((TransportImpl) protonTransport).writeEmptyFrame();
         } else if (command.isBrokerInfo()) {
             // ignore
         } else {
