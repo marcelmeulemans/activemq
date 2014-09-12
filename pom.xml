@@ -224,43 +224,21 @@
   </distributionManagement>
 
   <modules>
-    <module>activemq-openwire-generator</module>
     <module>activemq-client</module>
-    <module>activemq-openwire-legacy</module>
     <module>activemq-broker</module>
     <module>activemq-stomp</module>
-    <module>activemq-mqtt</module>
     <module>activemq-amqp</module>
-    <module>activemq-kahadb-store</module>
-    <module>activemq-jdbc-store</module>
-    <module>activemq-leveldb-store</module>
-    <module>activemq-unit-tests</module>
     <module>activemq-all</module>
-    <module>activemq-camel</module>
-    <module>activemq-console</module>
-    <module>activemq-fileserver</module>
     <module>activemq-jaas</module>
-    <module>activemq-karaf</module>
-    <module>activemq-jms-pool</module>
     <module>activemq-pool</module>
-    <module>activemq-ra</module>
-    <module>activemq-rar</module>
     <module>activemq-run</module>
-    <module>activemq-shiro</module>
-    <module>activemq-spring</module>
     <module>activemq-runtime-config</module>
-    <module>activemq-tooling</module>
     <module>activemq-web</module>
     <module>activemq-partition</module>
-    <module>activemq-osgi</module>
     <module>activemq-blueprint</module>
-    <module>activemq-web-demo</module>
     <module>activemq-web-console</module>
-    <module>activemq-karaf-itest</module>
-    <module>activemq-itests-spring31</module>
     <module>assembly</module>
     <module>activemq-log4j-appender</module>
-    <module>activemq-http</module>
   </modules>
 
   <scm>
