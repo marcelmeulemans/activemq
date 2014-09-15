@@ -240,6 +240,7 @@
     <module>activemq-web-console</module>
     <module>assembly</module>
     <module>activemq-log4j-appender</module>
+    <module>activemq-fileserver</module>
   </modules>
 
   <scm>
