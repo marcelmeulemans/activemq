@@ -49,7 +49,7 @@
                     <constantPendingMessageLimitStrategy limit="1000"/>
                   </pendingMessageLimitStrategy>
                 </policyEntry>
-              <policyEntry queue=">" gcInactiveDestinations="true" inactiveTimoutBeforeGC="1200000"/>
+              <policyEntry queue=">" gcInactiveDestinations="true" inactiveTimoutBeforeGC="1200000" prioritizedMessages="true"/>
               </policyEntries>
             </policyMap>
         </destinationPolicy>
