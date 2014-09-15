@@ -28,16 +28,10 @@
         </property>
     </bean>
 
-   <!-- Allows accessing the server log -->
-    <bean id="logQuery" class="io.fabric8.insight.log.log4j.Log4jLogQuery"
-          lazy-init="false" scope="singleton"
-          init-method="start" destroy-method="stop">
-    </bean>
-
     <!--
         The <broker> element is used to configure the ActiveMQ broker.
     -->
-    <broker xmlns="http://activemq.apache.org/schema/core" brokerName="localhost" dataDirectory="${activemq.data}">
+    <broker xmlns="http://activemq.apache.org/schema/core" brokerName="localhost" dataDirectory="${activemq.data}" schedulePeriodForDestinationPurge="10000" persistent="false">
 
         <destinationPolicy>
             <policyMap>
@@ -55,6 +49,7 @@
                     <constantPendingMessageLimitStrategy limit="1000"/>
                   </pendingMessageLimitStrategy>
                 </policyEntry>
+              <policyEntry queue=">" gcInactiveDestinations="true" inactiveTimoutBeforeGC="1200000"/>
               </policyEntries>
             </policyMap>
         </destinationPolicy>
@@ -68,7 +63,7 @@
             http://activemq.apache.org/jmx.html
         -->
         <managementContext>
-            <managementContext createConnector="false"/>
+            <managementContext createConnector="true"/>
         </managementContext>
 
         <!--
@@ -107,15 +102,28 @@
             clients and other brokers. For more information, see:
 
             http://activemq.apache.org/configuring-transports.html
+        -->	
+
+		  <sslContext>
+			 <sslContext keyStore="file:${activemq.base}/conf/eco-server.ks"
+						 keyStorePassword="123456"
+						 trustStore="file:${activemq.base}/conf/eco-server.ts"
+						 trustStorePassword="123456"
+						 />
+		  </sslContext>		
+		
+        <!--
+            The transport connectors expose ActiveMQ over a given protocol to
+            clients and other brokers. For more information, see:
+
+            http://activemq.apache.org/configuring-transports.html
         -->
         <transportConnectors>
-            <!-- DOS protection, limit concurrent connections to 1000 and frame size to 100MB -->
-            <transportConnector name="openwire" uri="tcp://0.0.0.0:61616?maximumConnections=1000&amp;wireFormat.maxFrameSize=104857600"/>
-            <transportConnector name="amqp" uri="amqp://0.0.0.0:5672?maximumConnections=1000&amp;wireFormat.maxFrameSize=104857600"/>
-            <transportConnector name="stomp" uri="stomp://0.0.0.0:61613?maximumConnections=1000&amp;wireFormat.maxFrameSize=104857600"/>
-            <transportConnector name="mqtt" uri="mqtt://0.0.0.0:1883?maximumConnections=1000&amp;wireFormat.maxFrameSize=104857600"/>
-            <transportConnector name="ws" uri="ws://0.0.0.0:61614?maximumConnections=1000&amp;wireFormat.maxFrameSize=104857600"/>
-        </transportConnectors>
+            <transportConnector name="amqp+ssl" uri="amqp+ssl://0.0.0.0:5671?needClientAuth=true&amp;maximumConnections=1000&amp;wireFormat.maxFrameSize=1048576000000"/>
+			<transportConnector name="amqp" uri="amqp://0.0.0.0:5672?maximumConnections=1000&amp;wireFormat.maxFrameSize=1048576000000"/>
+			<transportConnector name="stomp" uri="stomp://0.0.0.0:61613"/>
+        </transportConnectors>		
+		
 
         <!-- destroy the spring context on shutdown to stop jetty -->
         <shutdownHooks>
