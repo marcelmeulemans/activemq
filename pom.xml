@@ -1604,6 +1604,12 @@
       <snapshots><enabled>false</enabled></snapshots>
     </repository>
 
+    <repository>
+        <id>eco-snapshots</id>
+        <name>Eco Snapshots</name>
+        <url>https://tools.tkhinnovations.com/nexus/content/repositories/snapshots/</url>
+    </repository>
+
   </repositories>
 
 </project>
