@@ -25,7 +25,7 @@
     <version>5.11-SNAPSHOT</version>
   </parent>
 
-  <artifactId>apache-activemq</artifactId>
+  <artifactId>tkh-activemq</artifactId>
   <packaging>pom</packaging>
   <name>ActiveMQ :: Assembly</name>
   <description>Puts together the ActiveMQ distribution</description>
@@ -564,6 +564,24 @@
           </execution>
         </executions>
       </plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-deploy-plugin</artifactId>
+				<version>2.6</version>
+				<goals>
+					<goal>deploy-file</goal>
+				</goals>
+				<configuration>
+					<repositoryId>deployment</repositoryId>
+					<packaging>zip</packaging>
+					<generatePom>false</generatePom>
+					<url>https://tools.tkhinnovations.com/nexus/content/repositories/snapshots/</url>
+					<artifactId>tkh-activemq</artifactId>
+					<groupId>com.tkh.eco</groupId>
+					<version>${pom.version}</version>
+					<file>${project.build.directory}/${project.artifactId}-${pom.version}-bin.zip</file>
+				</configuration>
+			</plugin>      
     </plugins>
   </build>
 </project>
