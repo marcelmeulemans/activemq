@@ -62,12 +62,19 @@ public class JProtonClientTest {
             public void run() {
 
                 try {
-                    LOG.info("Starting");
                     mng.setBlocking(false);
                     mng.start();
                     mng.subscribe("amqp://localhost:1234/queue://" + UUID.randomUUID().toString());
+                    int i = 0;
                     while (mng.incoming() < 1) {
                         mng.recv();
+                        Thread.sleep(1);
+                        if (i++ > 3000) {
+                            LOG.info("sleep");
+                            // dont send keep alive empty frames for 3 seconds
+                            // after this time connection should be removed for sure.
+                            Thread.sleep(3000);
+                        }
                     }
 
                 } catch (Exception ex) {
@@ -78,14 +85,13 @@ public class JProtonClientTest {
         };
 
         t1.start();
-
         assertTrue("one connection", Wait.waitFor(new Wait.Condition() {
             @Override
             public boolean isSatisified() throws Exception {
                 return 1 == brokerService.getTransportConnectors().get(0).connectionCount();
             }
         }));
-        LOG.info("Got one connection");
+
         // and it should be closed due to inactivity
         assertTrue("no dangling connections", Wait.waitFor(new Wait.Condition() {
             @Override
@@ -93,7 +99,7 @@ public class JProtonClientTest {
                 return 0 == brokerService.getTransportConnectors().get(0).connectionCount();
             }
         }));
-        LOG.info("Zero connections");
+
         assertTrue("no exceptions", exceptions.isEmpty());
     }
 }
