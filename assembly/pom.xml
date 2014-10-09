@@ -511,7 +511,7 @@
               <descriptors>
                  <descriptor>src/main/descriptors/unix-bin.xml</descriptor>
               </descriptors>
-              <!--<finalName>${pom.artifactId}-${project.version}</finalName>-->
+              <finalName>${tkhName}-${tkhVersion}</finalName>
               <!--<appendAssemblyId>false</appendAssemblyId>-->
             </configuration>
           </execution>
@@ -525,7 +525,7 @@
               <descriptors>
                  <descriptor>src/main/descriptors/windows-bin.xml</descriptor>
               </descriptors>
-              <!--<finalName>${pom.artifactId}-${project.version}</finalName>-->
+              <finalName>${tkhName}-${tkhVersion}</finalName>
               <!--<appendAssemblyId>false</appendAssemblyId>-->
             </configuration>
           </execution>
